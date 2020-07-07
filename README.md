@@ -2,6 +2,9 @@
 
 Use VPN in [n.eko](https://github.com/nurdism/neko), modified by [m1k1o](https://github.com/m1k1o/neko), including [Traefik](https://docs.traefik.io/)-Ready docker-compose. 
 
+## Usage
+In neko, go to `http://vpn/` and change VPN server from Web UI:
+
 ![screenshot](https://raw.githubusercontent.com/m1k1o/ovpn-nodejs/f62621f5440b717b3e3ae344ab2476f5571e1f87/screenshot.png)
 
 ## Install
