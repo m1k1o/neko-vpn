@@ -1,0 +1,43 @@
+version: "3.7"
+networks:
+  default:
+    external:
+      name: "${TRAEFIK_NETWORK_NAME}"
+services:
+  vpn:
+    build: "./ovpn-nodejs"
+    restart: "unless-stopped"
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    cap_add:
+      - net_admin
+    dns:
+     - 8.8.8.8
+     - 8.8.4.4
+    volumes:
+      - "/dev/net:/dev/net:z"
+      - "./vpn:/vpn"
+    command: "80 ${DEFAULT_VPN}"
+  neko:
+    image: "m1k1o/neko:latest"
+    restart: "unless-stopped"
+    shm_size: "1gb"
+    environment:
+      DISPLAY: ":99.0"
+      NEKO_BIND: ":8080"
+      NEKO_EPR: "${PORT_RANGE}"
+      NEKO_PASSWORD_ADMIN: "${ADMIN_PASSWORD}"
+      NEKO_PASSWORD: "${USER_PASSWORD}"
+      NEKO_SCREEN: "${DEFAULT_SCREEN}"
+    ports:
+      - "${PORT_RANGE}:${PORT_RANGE}/udp"
+    volumes:
+      - "./neko/neko.js:/usr/lib/firefox-esr/mozilla.cfg"
+      - "./neko/policies.json:/usr/lib/firefox-esr/distribution/policies.json"
+      - "${DOWNLOAD_DIR}:/home/neko/Downloads/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.neko-frontend.loadbalancer.server.port=8080"
+      - "traefik.http.routers.neko.rule=${TRAEFIK_RULE}"
+      - "traefik.http.routers.neko.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.routers.neko.tls.certresolver=${TRAEFIK_CERTRESOLVER}"

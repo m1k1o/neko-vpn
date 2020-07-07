@@ -1,0 +1,3 @@
+[submodule "ovpn-nodejs"]
+	path = ovpn-nodejs
+	url = https://github.com/m1k1o/ovpn-nodejs
