@@ -21,7 +21,7 @@ cp .env.example .env
 
 3. Copy all `.ovpn` files into `vpn/` folder.
 
-If you are using authentication in your VPN files (i hope you do so), you might want to include username and password as well. Please read tutorial [here](https://github.com/m1k1o/ovpn-nodejs#openvpn-authentication) how to do it.
+If you are using authentication in your VPN files (i hope you do so), you might want to include username and password as well. Please read tutorial [here](https://github.com/m1k1o/ovpn-nodejs/tree/f62621f5440b717b3e3ae344ab2476f5571e1f87#openvpn-authentication) how to do it.
 
 ### Publish port
 
@@ -49,7 +49,7 @@ If you want your container to use VPN's routes, add [this](https://docs.docker.c
 ```yml
   my-service:
     image: "my-image"
-	network_mode: "service:vpn"
+    network_mode: "service:vpn"
 ```
 
 Remember, since your container will be using network of VPN, traffic to published ports will be routed through VPN as well. Only local traffic will not, so you'll need reverse proxy, e.g. Traefik. It can handle now also TCP and UDP connections.
